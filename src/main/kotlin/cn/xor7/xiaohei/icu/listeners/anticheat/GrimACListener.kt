@@ -1,6 +1,6 @@
 package cn.xor7.xiaohei.icu.listeners.anticheat
 
-import cn.xor7.xiaohei.icu.antiCheatListener
+import cn.xor7.xiaohei.icu.listeners.anticheat.antiCheatListener
 import org.bukkit.Bukkit
 import org.bukkit.event.Event
 import org.bukkit.event.EventHandler
