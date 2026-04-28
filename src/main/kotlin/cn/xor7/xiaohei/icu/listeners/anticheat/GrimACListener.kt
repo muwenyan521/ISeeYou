@@ -7,6 +7,9 @@ import org.bukkit.event.Listener
 
 class GrimACListener : Listener {
     @EventHandler
-    fun onFlag(e: FlagEvent) = Bukkit.getPlayer(e.player.uniqueId)
-        ?.let { antiCheatListener.onAntiCheatAction(it) }
+    fun onFlag(e: FlagEvent) {
+        Bukkit.getPlayer(e.player.uniqueId)?.let { player ->
+            antiCheatListener.onAntiCheatAction(player)
+        }
+    }
 }
