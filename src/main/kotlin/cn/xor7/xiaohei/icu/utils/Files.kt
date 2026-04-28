@@ -18,10 +18,9 @@ import kotlin.io.path.isDirectory
 
 fun tryRemoveTempFile() {
     if (!module.deleteTmpFileOnLoad) return
-    Files.walk(
-        Paths.get("./replay").also { if (!it.exists()) return },
-        5, FileVisitOption.FOLLOW_LINKS,
-    ).use { paths ->
+    val replayDir = Paths.get("./replay")
+    if (!replayDir.exists()) return
+    Files.walk(replayDir, 5, FileVisitOption.FOLLOW_LINKS).use { paths ->
         paths.filter { it.isDirectory() }
             .filter { it.fileName.toString().endsWith(".tmp") }
             .forEach { it.deleteRecursively() }
@@ -44,8 +43,7 @@ fun tryDeleteOutdateFiles() {
         module.recordSuspicious.path,
         module.instantReplay.path,
     )
-        .map { Paths.get(it).parent }
-        .filter { it != null }
+        .mapNotNull { Paths.get(it).parent }
         .forEach { deleteOutdateFilesIn(it) }
 }
 
@@ -55,9 +53,7 @@ private fun deleteOutdateFilesIn(directory: Path) {
 }
 
 private fun deleteFilesOlderThan(directory: Path, cutoffTime: Instant) {
-    if (!Files.isDirectory(directory)) {
-        throw IllegalArgumentException("The provided path is not a directory: $directory")
-    }
+    if (!directory.exists() || !directory.isDirectory()) return
 
     try {
         Files.walk(directory).use { paths ->
