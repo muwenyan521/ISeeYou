@@ -3,7 +3,6 @@ package cn.xor7.xiaohei.icu
 import cn.xor7.xiaohei.icu.commands.registerICUCommand
 import cn.xor7.xiaohei.icu.commands.registerInstantReplayCommand
 import cn.xor7.xiaohei.icu.commands.registerPhotographerCommand
-import cn.xor7.xiaohei.icu.listeners.anticheat.GrimACListener
 import cn.xor7.xiaohei.icu.utils.initConfig
 import cn.xor7.xiaohei.icu.utils.removeAllPhotographers
 import cn.xor7.xiaohei.icu.utils.scheduleDeleteOutdateFiles
@@ -41,9 +40,8 @@ class ISeeYouPlugin : JavaPlugin() {
         val pm = Bukkit.getPluginManager()
         if (pm.isPluginEnabled("GrimAC")) {
             try {
-                Class.forName("ac.grim.grimac.api.event.events.FlagEvent")
-                pm.registerEvents(GrimACListener(), this)
-                logger.info("Successfully hooked into GrimAC.")
+                cn.xor7.xiaohei.icu.listeners.anticheat.GrimACSupport.register()
+                logger.info("Successfully hooked into GrimAC via its native EventBus.")
             } catch (e: Throwable) {
                 logger.warning("Detected GrimAC but failed to register listener: ${e.message}")
             }

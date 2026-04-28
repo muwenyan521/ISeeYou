@@ -3,13 +3,12 @@ package cn.xor7.xiaohei.icu.listeners.anticheat
 import cn.xor7.xiaohei.icu.listeners.anticheat.antiCheatListener
 import org.bukkit.Bukkit
 import org.bukkit.event.Event
-import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.plugin.EventExecutor
 
-class GrimACListener : Listener {
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    fun onFlag(e: Event) {
+class GrimACListener : Listener, EventExecutor {
+    
+    override fun execute(listener: Listener, e: Event) {
         if (e.javaClass.name == "ac.grim.grimac.api.event.events.FlagEvent") {
             try {
                 GrimACSupport.handle(e)
